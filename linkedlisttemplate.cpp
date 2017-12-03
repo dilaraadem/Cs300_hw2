@@ -18,7 +18,7 @@ void LinkedList<itemType>::add (itemType n)
 	node<itemType> *ptr;
 	if(head==NULL)
 	{
-		ptr = new node<itemType>(n,head);
+		ptr = new node<itemType>(n,NULL);
 		head = ptr;	
 		size++;
 	}
@@ -27,8 +27,9 @@ void LinkedList<itemType>::add (itemType n)
 		ptr = head;
 		while(ptr->next!=NULL)
 			ptr=ptr->next;
-		node<itemType> *p=new node<itemType>(n,ptr->next);
-		ptr=p;
+		node<itemType> *p=new node<itemType>(n,NULL);
+		ptr->next=p;
+		size++;
 	}
 }	
 
