@@ -1,4 +1,4 @@
-//Dilara Ademoðlu
+//Dilara AdemoÃ°lu
 #include "TwoDimTreeNode.h"
 #include <iostream>
 using namespace std;
@@ -101,6 +101,8 @@ void TwoDimTreeNode::DivideFourandAdd(Rectangle &R,TwoDimTreeNode &node) //inser
 			CreateNode(node);
 			DivideFourandAdd(R,*node.BottomRight);
 		}
+		else
+			node.Vertical.add(R);
 	}
 }
 
@@ -120,18 +122,6 @@ void TwoDimTreeNode::SearchTree(int x, int y,TwoDimTreeNode &root, int &count,ve
 					count++; //increase count
 					rect.push_back(ptr->info); //store the found rectangle's info
 				}
-				if(root.TopLeft!=NULL || root.TopRight!=NULL || root.BottomLeft!=NULL || root.BottomRight!=NULL) 
-					//check if there are other rectangles a level down, recursively
-				{
-					if(x<root.Extent.centerX && y<root.Extent.centerY)
-						SearchTree(x,y,*root.TopLeft,count,rect);
-					else if(root.Extent.centerX<x && root.Extent.centerY>y)
-						SearchTree(x,y,*root.TopRight,count,rect);
-					else if(x<root.Extent.centerX && root.Extent.centerY<y)
-						SearchTree(x,y,*root.BottomLeft,count,rect);
-					else if(x>root.Extent.centerX && root.Extent.centerY<y)
-						SearchTree(x,y,*root.BottomRight,count,rect);
-				}
 				ptr=ptr->next;
 			}
 		}
@@ -144,34 +134,20 @@ void TwoDimTreeNode::SearchTree(int x, int y,TwoDimTreeNode &root, int &count,ve
 					count++; //increase count
 					rect.push_back(p->info); //store the found rectangle's info
 				}
-				if(root.TopLeft!=NULL || root.TopRight!=NULL || root.BottomLeft!=NULL || root.BottomRight!=NULL)
-				//check if there are other rectangles a level down, recursively
-				{
-					if(x<root.Extent.centerX && y<root.Extent.centerY)
-						SearchTree(x,y,*root.TopLeft,count,rect);
-					else if(root.Extent.centerX<x && root.Extent.centerY>y)
-						SearchTree(x,y,*root.TopRight,count,rect);
-					else if(x<root.Extent.centerX && root.Extent.centerY<y)
-						SearchTree(x,y,*root.BottomLeft,count,rect);
-					else if(x>root.Extent.centerX && root.Extent.centerY<y)
-						SearchTree(x,y,*root.BottomRight,count,rect);
-				}
 				p=p->next;
 			}
 		}
 	}
-	else//if there are no rectangles to match go a level down, meaning vertical and horizontal sizes are 0
+	//if there are no rectangles to match go a level down
+	if(root.TopLeft!=NULL || root.TopRight!=NULL || root.BottomLeft!=NULL || root.BottomRight!=NULL)
 	{
-		if(root.TopLeft!=NULL || root.TopRight!=NULL || root.BottomLeft!=NULL || root.BottomRight!=NULL)
-		{
-			if(x<root.Extent.centerX && y<root.Extent.centerY)
-				SearchTree(x,y,*root.TopLeft,count,rect);
-			if(root.Extent.centerX<x && root.Extent.centerY>y)
-				SearchTree(x,y,*root.TopRight,count,rect);
-			if(x<root.Extent.centerX && root.Extent.centerY<y)
-				SearchTree(x,y,*root.BottomLeft,count,rect);
-			if(x>root.Extent.centerX && root.Extent.centerY<y)
-				SearchTree(x,y,*root.BottomRight,count,rect);
-		}
+		if(x<root.Extent.centerX && y<root.Extent.centerY)
+			SearchTree(x,y,*root.TopLeft,count,rect);
+		if(root.Extent.centerX<x && root.Extent.centerY>y)
+			SearchTree(x,y,*root.TopRight,count,rect);
+		if(x<root.Extent.centerX && root.Extent.centerY<y)
+			SearchTree(x,y,*root.BottomLeft,count,rect);
+		if(x>root.Extent.centerX && root.Extent.centerY<y)
+			SearchTree(x,y,*root.BottomRight,count,rect);
 	}
 }
